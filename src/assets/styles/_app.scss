@@ -28,6 +28,11 @@
   .App-link {
     color: #61dafb;
   }
+
+  .view-container {
+    max-width: $maxWidth;
+    margin: 0 auto;
+  }
   
   @keyframes App-logo-spin {
     from {

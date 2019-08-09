@@ -13,8 +13,6 @@ class Dashboard extends React.Component {
   }
 
 
-  
-
   render() {
 
     return (
@@ -24,6 +22,9 @@ class Dashboard extends React.Component {
           <div className="logo-wrapper">
             <p>made with love by</p>
             <img src={labsLogo} />
+          </div>
+          <div className="cta-wrapper">
+            <a target="_blank" href="https://github.com/CodeTheDream">View on Github</a>
           </div>
         </div>
       </div>

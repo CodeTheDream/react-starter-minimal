@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from "react-router-dom";
-import * as ROUTES from "../../constants/routes";
+import * as ROUTES from "../../constants/routes.js";
 import Logo from '../../assets/images/ctd-logo.png'
 
 
@@ -15,7 +15,7 @@ const Navigation = () => (
             <Link to={ROUTES.HOME}>Home</Link>
           </li>
           <li>
-            <Link to={ROUTES.ACCOUNT}>About</Link>
+            <Link to={ROUTES.ABOUT}>About</Link>
           </li>
         </ul>
       </div>

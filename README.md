@@ -1,4 +1,4 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a Code the Dream project based on [Create React App](https://github.com/facebook/create-react-app.
 
 ## Available Scripts
 
