@@ -1,4 +1,15 @@
 import React from 'react';
-import weather from "../../components/Weather"
+import Weather from "../../components/Weather"
 
-class 
+class Compile extends React.Component{
+
+
+    render() {
+        return (
+
+           <Weather/>
+        )
+}
+}
+
+export default Compile;
