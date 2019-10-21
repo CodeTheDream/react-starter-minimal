@@ -4,26 +4,34 @@ class Today extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            zipCode: undefined,
-            temperature: undefined,
-            humidity: undefined,
-
+            zipCode: '',
+            date: '',
+            temperature: '',
+            humidity: '',
+            error: '',
         };
     }
 
     componentWillMount() {
-        console.log("say hello")
-        const url = this.getZipcode()
-        //this. because not inside component did mount outside scope
+        const url = this.getWeather()
+        const weather = this.getWeather()
     }
 
     handleChange = (event) => {
-            this.setState({zipCode: event.target.zipCode });
+            this.setState({ zipCode: event.target.zipCode });
     };
 
-    getZipcode = () => {
-        fetch('https://api.openweathermap.org/data/2.5/weather?q=${zipCode}&APPID=${process.env.APP_ID}');
-
+    getWeather = () => {
+        const apikey = process.env.REACT_APP_ID;
+        const zipcode = 27077
+        const url = 'https://api.openweathermap.org/data/2.5/weather?q=' + zipcode + '&APPID=' + apikey
+        fetch(url)
+        .then(response => response.json())
+        .then(responseData => {
+          console.log("data", responseData);
+          const weatherdata = responseData.records;
+          this.setState({ weatherdata }, () => {});
+        });
     }
     
         render() {
@@ -34,6 +42,7 @@ class Today extends React.Component {
                         Zipcode:
                     <input type="text" value={this.state.zipCode} onChange={this.handleChange} />
                     </label>
+                    <h1>{this.state.weather}</h1>
                 </form>
             )
         }
