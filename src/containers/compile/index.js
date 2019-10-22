@@ -5,7 +5,8 @@ class Compile extends React.Component {
   render() {
     return (
       <div>
-        <Today />
+            <Today />
+            
       </div>
     );
   }

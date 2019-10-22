@@ -12,6 +12,7 @@ class Today extends React.Component {
       location: "",
       currentInput: "",
       weather: '',
+      city: '',
     };
   }
 
@@ -39,6 +40,7 @@ class Today extends React.Component {
           this.setState({
               temperature: responseData.main.temp,
               humidity: responseData.main.humidity,
+              city: responseData.name,
           }, () => { });
       });
   };
@@ -50,9 +52,9 @@ class Today extends React.Component {
 
     render() {
         const temperature = this.state.temperature; 
-        const humidity = this.state.humidity
-        console.log(temperature, humidity);
-
+        const humidity = this.state.humidity;
+        const city = this.state.city;
+ 
     return (
       <form>
         <h1>Welcome to your Weather Forecast!</h1> 
@@ -63,8 +65,15 @@ class Today extends React.Component {
         <button type="submit" onClick={(e) => this.submit(e)}>
           Submit
         </button>
-            <div>{temperature}</div>
-            <div>{humidity}</div>
+            <div>
+            <h3>City</h3>
+                <div>{city}</div>
+            <h3>Temperature in F</h3>
+                <div>{((temperature-273.15)*9/5 + 32)}</div>
+            <h3>Humidity</h3>
+                <div>{humidity}</div>
+                
+        </div>
         </form>
     );
   }
