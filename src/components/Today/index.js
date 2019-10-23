@@ -1,5 +1,4 @@
 import React from "react";
-import Clock from "../Time"
 class Today extends React.Component {
   constructor(props) {
     super(props);
@@ -25,7 +24,7 @@ class Today extends React.Component {
       this.setState({ currentInput: e.target.value });
       console.log("currentInput", this.state.currentInput )
     };
-
+    
   getWeather = () => {
     const apikey = process.env.REACT_APP_ID;
     let zip = this.state.currentInput;
@@ -60,7 +59,7 @@ class Today extends React.Component {
     };
 
     render() {
-        const temperature = ((this.state.temperature-273.15)*9/5 + 32); 
+        const temperature = ((this.state.temperature - 273.15) * 9 / 5 + 32);
         const humidity = this.state.humidity;
         const city = this.state.city;
  
@@ -82,7 +81,7 @@ class Today extends React.Component {
             <h3>Humidity</h3>
                 <div>{humidity}</div>   
             <h3>Time</h3>
-                <div><Clock /></div>
+                <div></div>
         </div>  
         </form>
     );

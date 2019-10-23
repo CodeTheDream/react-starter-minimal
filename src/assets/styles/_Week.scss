@@ -1,10 +1,12 @@
 
-.forecast-wrapper {
+.forecast-wrapper{
     display: flex;
-    flex-flow: row nowrap;
     height: 100%;
-  }
-  .forecast {
-    width: 40%;
-    height: 40%;
-  }
+}
+
+.forecast{
+    width: 134px;
+    height: 88px;
+    border: 1px solid grey;
+    margin: 20px;
+}
