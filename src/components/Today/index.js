@@ -16,6 +16,7 @@ class Today extends React.Component {
       city: '',
       map: '',
       marker: '',
+      fahren: '',
     };
   }
 
@@ -24,10 +25,10 @@ class Today extends React.Component {
     }
     
   setUserInput = (e) => {
-      this.setState({ currentInput: e.target.value });
-      console.log("currentInput", this.state.currentInput )
-    };
-    
+    this.setState({ currentInput: e.target.value });
+    console.log("currentInput", this.state.currentInput)
+  };
+  
   getWeather = () => {
     const apikey = process.env.REACT_APP_ID;
     let zip = this.state.currentInput;
@@ -37,10 +38,10 @@ class Today extends React.Component {
       .then(response => response.json())
       .then(responseData => {
         console.log("data", responseData);
-          this.setState({
-              temperature: responseData.main.temp,
-              humidity: responseData.main.humidity,
-              city: responseData.name,
+        this.setState({
+            temperature: responseData.main.temp,
+            humidity: responseData.main.humidity,
+            city: responseData.name,
           }, () => { });
       });
     };
@@ -66,17 +67,19 @@ class Today extends React.Component {
   // }
  
     submit = (e) => {
-      e.preventDefault()
+      e.preventDefault();
       this.getWeather();
-
+     const convertedTempt= ((this.state.temperature - 273.15) * 9 / 5 + 32);
+      this.setState({fahren: convertedTempt})
     };
 
-    render() {
-        const temperature = ((this.state.temperature - 273.15) * 9 / 5 + 32);
-        const humidity = this.state.humidity;
-        const city = this.state.city;
+  render() {
+      const {humidity, city, temperature, fahren}= this.state
+      // const humidity = this.state.humidity;
+      // const city = this.state.city;
+      // const temperature = this.state.temperature;
+      // const fahren = this.state
         const mapStyles = { width: '50%', height: '50%',};
- 
     return (
       <form>
         <h1>Welcome to your Weather Forecast!</h1> 
@@ -89,9 +92,9 @@ class Today extends React.Component {
         </button>
         <div>
             <h3>City</h3>
-                <div>{city}</div>
-            <h3>Temperature in F</h3>
-          <div> {temperature.toFixed(3)}</div>
+          <div>{city}</div>
+          <h3>Temperature</h3>
+          <div>{fahren}</div>
             <h3>Humidity</h3>
                 <div>{humidity}</div>   
             <h3>Time</h3>
