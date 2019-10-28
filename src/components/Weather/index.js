@@ -3,7 +3,6 @@ import Week from "../Week";
 import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
 import "../../assets/styles/_Week.scss";
 
-
 class Weather extends React.Component {
   constructor(props) {
     super(props);
@@ -22,7 +21,7 @@ class Weather extends React.Component {
       fahren: "",
       zipcodes: [
         { lat: 47.49855629475769, lng: -122.14184416996333 },
-        { latitude: 47.359423, longitude: -122.021071 },
+        { latitude: 47.359423, longitude: -122.021071 }
       ]
     };
   }
@@ -111,33 +110,45 @@ class Weather extends React.Component {
   }
 
   submit = e => {
-    console.log('submitting');
+    console.log("submitting");
     e.preventDefault();
     this.getWeather();
     this.displayMarkers();
   };
 
-  getfiveday() {
+  getTime() {
     const time = new Date();
     const formattedTime = time.getHours();
-    const round = ":00";
+    const round = formattedTime + ":00";
+    return round;0
+  }
 
+  getFiveDay() {
     var renderData = [];
-    var week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    var week = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ];
     for (var i = 0; i < week.length; i++) {
       renderData.push(week[i]);
     }
-    
+
+    console.log("week1", renderData);
     var renderWeek = [];
-    var data = props;
+    var data = this.state.temperature;
     for (var x = 0; x < renderData.length; x++) {
-      renderWeek.push(data)
+      renderWeek.push(data);
     }
-    console.log("week", renderWeek)
+    console.log("data",data);
   }
 
   render() {
-    const { humidity, city} = this.state;
+    const { humidity, city } = this.state;
     const mapStyles = { width: "50%", height: "50%" };
     let temperature = this.state.temperature;
 
@@ -177,7 +188,14 @@ class Weather extends React.Component {
         >
           {this.displayMarkers()}
         </Map>
-        <Week renderData={this.state.renderData[0]} formattedTime={this.state.formattedTime} round={this.round} renderWeek={this.state.renderWeek[0]}/>
+        <Week
+          getTime={this.getTime()}
+          getFiveDay={this.getFiveDay()}
+          renderData={this.state.renderData}
+          formattedTime={this.state.formattedTime}
+          round={this.state.round}
+          renderWeek={this.state.renderWeek}
+        />
       </form>
     );
   }
