@@ -3,6 +3,7 @@ import Week from "../Week";
 import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
 import "../../assets/styles/_Week.scss";
 
+
 class Weather extends React.Component {
   constructor(props) {
     super(props);
@@ -25,6 +26,10 @@ class Weather extends React.Component {
       ]
     };
   }
+
+  // componentDidMount() {
+  //   this.getForecastData();
+  // }
 
   setUserInput = e => {
     this.setState({ currentInput: e.target.value });
@@ -63,19 +68,35 @@ class Weather extends React.Component {
       "&APPID=" +
       apikey;
     fetch(url)
-      .then(response => response.json())
-      .then(responseData => {
-        console.log("data", responseData);
+      .then(res => res.json())
+      .then(forecastData => {
+        console.log("forecast data", forecastData);
         this.setState(
           {
-            temperature: responseData.main.temp,
-            humidity: responseData.main.humidity,
-            city: responseData.name
+            city1: forecastData.list[0].weather[0],
+            coord1: forecastData.city.coord
           },
           () => {}
         );
       });
   };
+
+  getForecastData() {
+    var week = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ];
+    var renderedData = [];
+    for (var i = 0; i < week.length; i++) {
+      renderedData.push(this.state.city1, this.state.coord1);
+      console.log("boom", renderedData);
+    }
+  }
 
   //   getMap() {
   //       const googleapi = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
@@ -114,13 +135,14 @@ class Weather extends React.Component {
     e.preventDefault();
     this.getWeather();
     this.displayMarkers();
+    this.get5day();
   };
 
   getTime() {
     const time = new Date();
     const formattedTime = time.getHours();
     const round = formattedTime + ":00";
-    return round;0
+    return round;
   }
 
   getFiveDay() {
@@ -134,6 +156,7 @@ class Weather extends React.Component {
       "Friday",
       "Saturday"
     ];
+
     for (var i = 0; i < week.length; i++) {
       renderData.push(week[i]);
     }
@@ -144,7 +167,7 @@ class Weather extends React.Component {
     for (var x = 0; x < renderData.length; x++) {
       renderWeek.push(data);
     }
-    console.log("data",data);
+    console.log("data", data);
   }
 
   render() {
@@ -191,6 +214,7 @@ class Weather extends React.Component {
         <Week
           getTime={this.getTime()}
           getFiveDay={this.getFiveDay()}
+          getForecastData={this.getForecastData()}
           renderData={this.state.renderData}
           formattedTime={this.state.formattedTime}
           round={this.state.round}
