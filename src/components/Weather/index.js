@@ -1,9 +1,10 @@
 import React from "react";
-import Week from "../../components/Week";
+import Week from "../Week";
 import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
 import "../../assets/styles/_Week.scss";
 
-class Today extends React.Component {
+
+class Weather extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,16 +23,8 @@ class Today extends React.Component {
       zipcodes: [
         { lat: 47.49855629475769, lng: -122.14184416996333 },
         { latitude: 47.359423, longitude: -122.021071 },
-        { latitude: 47.2052192687988, longitude: -121.988426208496 },
-        { latitude: 47.6307081, longitude: -122.1434325 },
-        { latitude: 47.3084488, longitude: -122.2140121 },
-        { latitude: 47.5524695, longitude: -122.0425407 }
       ]
     };
-  }
-
-  componentWillMount() {
-    //this.getWeather();
   }
 
   setUserInput = e => {
@@ -124,12 +117,27 @@ class Today extends React.Component {
     this.displayMarkers();
   };
 
+  getfiveday() {
+    const time = new Date();
+    const formattedTime = time.getHours();
+    const round = ":00";
+
+    var renderData = [];
+    var week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    for (var i = 0; i < week.length; i++) {
+      renderData.push(week[i]);
+    }
+    
+    var renderWeek = [];
+    var data = props;
+    for (var x = 0; x < renderData.length; x++) {
+      renderWeek.push(data)
+    }
+    console.log("week", renderWeek)
+  }
+
   render() {
     const { humidity, city} = this.state;
-    // const humidity = this.state.humidity;
-    // const city = this.state.city;
-    // const temperature = this.state.temperature;
-    // const fahren = this.state
     const mapStyles = { width: "50%", height: "50%" };
     let temperature = this.state.temperature;
 
@@ -169,12 +177,12 @@ class Today extends React.Component {
         >
           {this.displayMarkers()}
         </Map>
+        <Week renderData={this.state.renderData[0]} formattedTime={this.state.formattedTime} round={this.round} renderWeek={this.state.renderWeek[0]}/>
       </form>
     );
   }
 }
 
 export default GoogleApiWrapper({
-  // apiKey: 'AIzaSyCNK2c8CXB0r8b8nYSZnNp5zFEIUJo2gvo',
   apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
-})(Today);
+})(Weather);

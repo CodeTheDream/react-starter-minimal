@@ -1,10 +1,10 @@
 import React from 'react';
-import Compile from "../src/containers/compile"
+import Weather from "../src/components/Weather";
 
 class App extends React.Component {
     render() {
         return (
-            <Compile />
+            <Weather />
         )
     }
 }
