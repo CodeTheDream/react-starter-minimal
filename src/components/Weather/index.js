@@ -2,7 +2,7 @@ import React from "react";
 import Week from "../Week";
 import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
 import "../../assets/styles/_Week.scss";
-
+import moment from "moment";
 
 class Weather extends React.Component {
   constructor(props) {
@@ -20,10 +20,10 @@ class Weather extends React.Component {
       map: "",
       marker: "",
       fahren: "",
-      zipcodes: [
-        { lat: 47.49855629475769, lng: -122.14184416996333 },
-        { latitude: 47.359423, longitude: -122.021071 }
-      ]
+      zipcodes: [{ lat: 47.49855629475769, lng: -122.14184416996333 }],
+      currentDate: new Date(),
+      markedDate: moment(new Date()).format("YYYY-MM-DD"),
+      renderedData: []
     };
   }
 
@@ -47,7 +47,7 @@ class Weather extends React.Component {
     fetch(url)
       .then(response => response.json())
       .then(responseData => {
-        console.log("data", responseData);
+        console.log("data5", responseData);
         this.setState(
           {
             temperature: responseData.main.temp,
@@ -74,7 +74,8 @@ class Weather extends React.Component {
         this.setState(
           {
             city1: forecastData.list[0].weather[0],
-            coord1: forecastData.city.coord
+            coord1: forecastData.city.coord,
+            date1: forecastData.list[0].dt_text
           },
           () => {}
         );
@@ -91,22 +92,17 @@ class Weather extends React.Component {
       "Friday",
       "Saturday"
     ];
-    var renderedData = [];
+    var weatherData = [];
     for (var i = 0; i < week.length; i++) {
-      renderedData.push(this.state.city1, this.state.coord1);
-      console.log("boom", renderedData);
+      weatherData.push(this.state.city1, this.state.coord1);
+      console.log("boom", weatherData);
+      console.log("city", this.state.city1, "coord1", this.state.coord1);
     }
+    console.log("hello", weatherData);
+    this.setState({
+      renderedData: weatherData
+    });
   }
-
-  //   getMap() {
-  //       const googleapi = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
-  //       let zip = this.state.currentInput;
-  //       const mapurl = "https://maps.googleapis.com/maps/api/staticmap?center=" + zip + "&zoom=11&size=350x350&key=" + googleapi;
-  //       this.setState({
-  //           map: mapurl,
-  //       });
-
-  // }
 
   displayMarkers = e => {
     return this.state.zipcodes.map((zipcode, index) => {
@@ -118,11 +114,12 @@ class Weather extends React.Component {
             lat: zipcode.latitude,
             lng: zipcode.longitude
           }}
-          onClick={() => console.log("You clicked me!")}
+          onClick={e => console.log("You clicked me!")}
         />
       );
     });
   };
+
   getTemp(k) {
     let kelvin = k - 273.15;
     let farenheit = (kelvin * 9) / 5 + 32;
@@ -136,6 +133,8 @@ class Weather extends React.Component {
     this.getWeather();
     this.displayMarkers();
     this.get5day();
+    this.getFiveDay();
+    this.getForecastData();
   };
 
   getTime() {
@@ -146,7 +145,7 @@ class Weather extends React.Component {
   }
 
   getFiveDay() {
-    var renderData = [];
+    var ironData = [];
     var week = [
       "Sunday",
       "Monday",
@@ -158,24 +157,27 @@ class Weather extends React.Component {
     ];
 
     for (var i = 0; i < week.length; i++) {
-      renderData.push(week[i]);
+      ironData.push(week[i]);
     }
 
-    console.log("week1", renderData);
+    console.log("week1", ironData);
     var renderWeek = [];
     var data = this.state.temperature;
-    for (var x = 0; x < renderData.length; x++) {
+    for (var x = 0; x < ironData.length; x++) {
       renderWeek.push(data);
     }
-    console.log("data", data);
+    console.log("data", renderWeek);
   }
 
   render() {
-    const { humidity, city } = this.state;
+    const { humidity, city, zipcodes } = this.state;
     const mapStyles = { width: "50%", height: "50%" };
     let temperature = this.state.temperature;
-
-    console.log("temperature", temperature);
+    const today = this.state.currentDate;
+    const date = moment(today).format("MMMM D, YYYY");
+    // console.log("date",date)
+    // console.log("temperature", temperature);
+    console.log("uturn", this.state.renderedData);
     return (
       <form className="wholeform">
         <h1>Welcome to your Weather Forecast!</h1>
@@ -200,7 +202,7 @@ class Weather extends React.Component {
           <h3>Humidity</h3>
           <div>{humidity}</div>
           <h3>Time</h3>
-          <div></div>
+          <div>{this.state.hello}</div>
         </div>
         {this.state.currentInput && <Week temp={temperature} />}
         <Map
@@ -208,18 +210,21 @@ class Weather extends React.Component {
           zoom={8}
           style={mapStyles}
           initialCenter={{ lat: 47.444, lng: -122.176 }}
-        >
-          {this.displayMarkers()}
-        </Map>
-        <Week
-          getTime={this.getTime()}
-          getFiveDay={this.getFiveDay()}
-          getForecastData={this.getForecastData()}
-          renderData={this.state.renderData}
-          formattedTime={this.state.formattedTime}
-          round={this.state.round}
-          renderWeek={this.state.renderWeek}
-        />
+        ></Map>
+
+        {this.state.renderedData.length && (
+          <Week
+            // getTime={this.getTime}
+            // getFiveDay={this.getFiveDay()}
+            // getForecastData={this.getForecastData}
+            // getFiveDay={this.getFiveDay}
+            // renderData={this.state.ironData}
+            renderedData={this.state.renderedData}
+            // formattedTime={this.state.formattedTime}
+            // round={this.state.round}
+            // renderWeek={this.state.renderWeek}
+          />
+        )}
       </form>
     );
   }
