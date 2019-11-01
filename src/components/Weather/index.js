@@ -54,9 +54,9 @@ class Weather extends React.Component {
             humidity: responseData.main.humidity,
             city: responseData.name
           },
-          () => {}
+          () => {this.getFiveDay()}
         );
-      });
+      }).catch(error => {console.log(error)})
   };
 
   get5day = () => {
@@ -77,13 +77,13 @@ class Weather extends React.Component {
             coord1: forecastData.city.coord,
             date1: forecastData.list[0].dt_text
           },
-          () => {}
+          () => {this.getForecastData()}
         );
-      });
+      }).catch(error => {console.log(error)})
   };
 
   getForecastData() {
-    var week = [
+    const week = [
       "Sunday",
       "Monday",
       "Tuesday",
@@ -92,9 +92,9 @@ class Weather extends React.Component {
       "Friday",
       "Saturday"
     ];
-    var weatherData = [];
-    for (var i = 0; i < week.length; i++) {
-      weatherData.push(this.state.city1, this.state.coord1);
+    let weatherData = [];
+    for (let i = 0; i < week.length; i++) {
+      weatherData.push(this.state.city1);
       console.log("boom", weatherData);
       console.log("city", this.state.city1, "coord1", this.state.coord1);
     }
@@ -131,10 +131,10 @@ class Weather extends React.Component {
     console.log("submitting");
     e.preventDefault();
     this.getWeather();
-    this.displayMarkers();
+    // this.displayMarkers();
     this.get5day();
-    this.getFiveDay();
-    this.getForecastData();
+    // this.getFiveDay();
+    // this.getForecastData();
   };
 
   getTime() {
@@ -145,8 +145,8 @@ class Weather extends React.Component {
   }
 
   getFiveDay() {
-    var ironData = [];
-    var week = [
+    let ironData = [];
+    const week = [
       "Sunday",
       "Monday",
       "Tuesday",
@@ -156,14 +156,14 @@ class Weather extends React.Component {
       "Saturday"
     ];
 
-    for (var i = 0; i < week.length; i++) {
+    for (let i = 0; i < week.length; i++) {
       ironData.push(week[i]);
     }
 
     console.log("week1", ironData);
-    var renderWeek = [];
-    var data = this.state.temperature;
-    for (var x = 0; x < ironData.length; x++) {
+    let renderWeek = [];
+    const data = this.state.temperature;
+    for (let x = 0; x < ironData.length; x++) {
       renderWeek.push(data);
     }
     console.log("data", renderWeek);
@@ -173,7 +173,7 @@ class Weather extends React.Component {
     const { humidity, city, zipcodes } = this.state;
     const mapStyles = { width: "50%", height: "50%" };
     let temperature = this.state.temperature;
-    const today = this.state.currentDate;
+    const today = this.state.currentDate;  
     const date = moment(today).format("MMMM D, YYYY");
     // console.log("date",date)
     // console.log("temperature", temperature);
@@ -204,27 +204,19 @@ class Weather extends React.Component {
           <h3>Time</h3>
           <div>{this.state.hello}</div>
         </div>
-        {this.state.currentInput && <Week temp={temperature} />}
         <Map
           google={this.props.google}
           zoom={8}
           style={mapStyles}
           initialCenter={{ lat: 47.444, lng: -122.176 }}
         ></Map>
-
-        {this.state.renderedData.length && (
+        {this.state.renderedData.map(day =>
+          (
           <Week
-            // getTime={this.getTime}
-            // getFiveDay={this.getFiveDay()}
-            // getForecastData={this.getForecastData}
-            // getFiveDay={this.getFiveDay}
-            // renderData={this.state.ironData}
-            renderedData={this.state.renderedData}
-            // formattedTime={this.state.formattedTime}
-            // round={this.state.round}
-            // renderWeek={this.state.renderWeek}
+          day={day}
           />
-        )}
+          )) 
+        }
       </form>
     );
   }
