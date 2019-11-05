@@ -210,7 +210,7 @@ class Weather extends React.Component {
           <h3>Time</h3>
           <div>{this.state.hello}</div>
         </div>
-        <Map
+        <Map className="Map"
           google={this.props.google}
           zoom={8}
           style={mapStyles}

@@ -38,11 +38,11 @@ class Week extends React.Component {
       day3: this.props.day3[0].dt_txt,
       day4: this.props.day4[0].dt_txt,
       day5: this.props.day5[0].dt_txt,
-      day1info: "",
-      day2info: "",
-      day3info: "",
-      day4info: "",
-      day5info: ""
+      day1info: this.props.today,
+      day2info: this.props.day2,
+      day3info: this.props.day3,
+      day4info: this.props.day4,
+      day5info: this.props.day5
     });
     // this.props.today.map(item => {
     // })
@@ -77,15 +77,42 @@ class Week extends React.Component {
 
   render() {
     return (
-      <form>
-        <div>
-          <Day day1={this.state.day} todayHigh={this.state.todayHigh} todayLow={this.state.todayLow} 
-               day2={this.state.day2} day2High={this.state.day2High} day2Low={this.state.day2Low}
-               day3={this.state.day3} day3High={this.state.day3High} day3Low={this.state.day3Low}
-               day4={this.state.day4} day4High={this.state.day4High} day4Low={this.state.day4Low}
-               day5={this.state.day5} day5High={this.state.day5High} day5Low={this.state.day5Low} />
-        </div>
-      </form>
+      <div>
+        {this.state.day1info && (
+          <div>
+            <Day
+              day={this.state.day}
+              todayHigh={this.state.todayHigh}
+              todayLow={this.state.todayLow}
+              dayInfo={this.state.day1info}
+            />
+            <Day
+              day={this.state.day2}
+              todayHigh={this.state.day2High}
+              todayLow={this.state.day2Low}
+              dayInfo={this.state.day2info}
+            />
+            <Day
+              day={this.state.day3}
+              todayHigh={this.state.day3High}
+              todayLow={this.state.day3Low}
+              dayInfo={this.state.day3info}
+            />
+            <Day
+              day={this.state.day4}
+              todayHigh={this.state.day4High}
+              todayLow={this.state.day4Low}
+              dayInfo={this.state.day4info}
+            />
+            <Day
+              day={this.state.day5}
+              todayHigh={this.state.day5High}
+              todayLow={this.state.day5Low}
+              dayInfo={this.state.day5info}
+            />
+          </div>
+        )}
+      </div>
     );
   }
 }

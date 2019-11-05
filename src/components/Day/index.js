@@ -1,45 +1,40 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment";
-import Week from "../Week";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faCloud, faSun, faCloudRain } from "@fortawesome/free-solid-svg-icons";
+
+library.add(faSun, faCloud, faCloudRain);
 
 class Day extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
+  getIcon() {
+    const newArray = Object.assign(this.props.dayInfo);
+    console.log(newArray[0]);
+    const forecast = newArray[0].weather[0].main;
+    console.log("whole day", forecast);
+      if (forecast === "Rain") {
+        return <FontAwesomeIcon icon={faCloudRain} />;
+      }
+      if (forecast === "Clouds") {
+        return <FontAwesomeIcon icon={faCloud} />;
+      }
+      if (forecast === "sunny") {
+        return <FontAwesomeIcon icon={faSun} />;
+      };
   }
-  componentDidMount() {}
-
+  
   render() {
+
     return (
       <div className="alldays">
+        <div className="icon-wrapper"></div>
         <div className="day1">
-          {moment(this.props.day1).format("MMMM Do YYYY")} <br></br>
-          High:{this.props.todayHigh} ℉ <br></br>
-          Low:{this.props.todayLow} ℉
+          <div>{this.getIcon()}</div>
+          <div>{moment(this.props.day).format("MMMM Do YYYY")}</div> <br></br>
+          <div>High:{this.props.todayHigh} ℉ </div><br></br>
+          <div>Low:{this.props.todayLow} ℉ </div>
         </div>
-          <div className="day2">
-            {moment(this.props.day2).format("MMMM Do YYYY")} <br></br>
-          High:{this.props.day2High}
-            <br></br>
-          Low:{this.props.day2Low}
-          </div>
-          <div className="day3">
-            {moment(this.props.day3).format("MMMM Do YYYY")} <br></br>
-          High:{this.props.day3High} <br></br>
-          Low:{this.props.day3Low}
-          </div>
-          <div className="day4">
-            {moment(this.props.day4).format("MMMM Do YYYY")} <br></br>
-          High:{this.props.day4High} <br></br>
-          Low:{this.props.day4Low}
-          </div>
-          <div className="day5">
-            {moment(this.props.day5).format("MMMM Do YYYY")} <br></br>
-          High:{this.props.day5High} <br></br>
-          Low:{this.props.day5Low}
-          </div>
-        </div>
+      </div>
     );
   }
 }

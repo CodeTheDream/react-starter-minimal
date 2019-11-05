@@ -1,16 +1,14 @@
-import React from 'react';
-import Weather from "../src/components/Weather"
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faCloud, faSun } from '@fortawesome/free-solid-svg-icons';
+import React from "react";
+import Weather from "../src/components/Weather";
+// import { library } from "@fortawesome/fontawesome-svg-core";
+// import { faCloud, faSun, faRain } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faSun, faCloud);
+// library.add(faSun, faCloud, faRain);
 
 class App extends React.Component {
-    render() {
-        return (
-            <Weather />
-        )
-    }
+  render() {
+    return <Weather />;
+  }
 }
 
 export default App;
