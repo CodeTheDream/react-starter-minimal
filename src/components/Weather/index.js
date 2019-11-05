@@ -180,18 +180,9 @@ class Weather extends React.Component {
     // this.getForecastData();
   };
 
-  getTime() {
-    const time = new Date();
-    const formattedTime = time.getHours();
-    const round = formattedTime + ":00";
-    return round;
-  }
-
   render() {
     const { humidity, city, zipcodes } = this.state;
-    const mapStyles = { width: "50%", height: "50%",top: "50"};
-    let temperature = this.state.temperature;
-    const today = this.state.currentDate;
+    const mapStyles = { width: "46%", height: "47%"};
     console.log("uturn", this.state.renderedData);
     return (
       <form className="wholeform">
