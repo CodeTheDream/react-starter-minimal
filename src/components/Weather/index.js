@@ -3,6 +3,7 @@ import Week from "../Week";
 import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
 import "../../assets/styles/_Weather.scss";
 import moment from "moment";
+import Today from "../Today"
 
 class Weather extends React.Component {
   constructor(props) {
@@ -19,10 +20,10 @@ class Weather extends React.Component {
       city: "",
       map: "",
       marker: "",
-      todaysDate:'',
+      todaysDate: "",
       fahren: "",
       zipcodes: [{ lat: 47.49855629475769, lng: -122.14184416996333 }],
-      renderedData: []
+      renderedData: [],
     };
   }
 
@@ -51,10 +52,13 @@ class Weather extends React.Component {
           {
             temperature: responseData.main.temp,
             humidity: responseData.main.humidity,
-            city: responseData.name
+            city: responseData.name,
+            lat: responseData.coord.lat,
+            lng: responseData.coord.lon,
+            country: responseData.sys.country,
+            dayInfo: responseData.weather[0].main
           },
-          () => {
-          }
+          () => {}
         );
       })
       .catch(error => {
@@ -91,15 +95,15 @@ class Weather extends React.Component {
   };
 
   getForecastData() {
-    const week = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday"
-    ];
+    // const week = [
+    //   "Sunday",
+    //   "Monday",
+    //   "Tuesday",
+    //   "Wednesday",
+    //   "Thursday",
+    //   "Friday",
+    //   "Saturday"
+    // ];
     let weatherData = this.state.hourlyForecast;
     let today = [];
     let day2 = [];
@@ -107,25 +111,47 @@ class Weather extends React.Component {
     let day4 = [];
     let day5 = [];
     weatherData.map((weatherIncrement, i) => {
-      const forecastDate =  moment(weatherIncrement.dt * 1000).format('MMMM Do YYYY')
-  
-      if (forecastDate === moment().add(0, 'days').format('MMMM Do YYYY')
+      const forecastDate = moment(weatherIncrement.dt * 1000).format(
+        "MMMM Do YYYY"
+      );
+
+      if (
+        forecastDate ===
+        moment()
+          .add(0, "days")
+          .format("MMMM Do YYYY")
       ) {
         today.push(weatherIncrement);
       }
-      if (forecastDate === moment().add(1, 'days').format('MMMM Do YYYY')
+      if (
+        forecastDate ===
+        moment()
+          .add(1, "days")
+          .format("MMMM Do YYYY")
       ) {
         day2.push(weatherIncrement);
       }
-      if (forecastDate === moment().add(2, 'days').format('MMMM Do YYYY')
+      if (
+        forecastDate ===
+        moment()
+          .add(2, "days")
+          .format("MMMM Do YYYY")
       ) {
         day3.push(weatherIncrement);
       }
-      if (forecastDate === moment().add(3, 'days').format('MMMM Do YYYY')
+      if (
+        forecastDate ===
+        moment()
+          .add(3, "days")
+          .format("MMMM Do YYYY")
       ) {
         day4.push(weatherIncrement);
       }
-      if (forecastDate === moment().add(4, 'days').format('MMMM Do YYYY')
+      if (
+        forecastDate ===
+        moment()
+          .add(4, "days")
+          .format("MMMM Do YYYY")
       ) {
         day5.push(weatherIncrement);
       }
@@ -133,18 +159,18 @@ class Weather extends React.Component {
       return console.log("every 3 hours the weather is", weatherIncrement, i);
     });
     console.log("weatherIncrement", today);
-    console.log("weather day 2", day2)
-    console.log("weather day 3", day3)
-    console.log("weather day 4", day4)
-    console.log("weather day 5", day5)
+    console.log("weather day 2", day2);
+    console.log("weather day 3", day3);
+    console.log("weather day 4", day4);
+    console.log("weather day 5", day5);
     this.setState({
       today: today,
       day2: day2,
       day3: day3,
       day4: day4,
       day5: day5,
-      isForecast: true,
-    })
+      isForecast: true
+    });
   }
 
   displayMarkers = e => {
@@ -167,67 +193,84 @@ class Weather extends React.Component {
     let kelvin = k - 273.15;
     let farenheit = (kelvin * 9) / 5 + 32;
     let solution = Math.round(farenheit * 10) / 10;
-    return solution;
+    return solution ;
   }
 
   submit = e => {
     console.log("submitting");
     e.preventDefault();
     this.getWeather();
-    // this.displayMarkers();
+    this.displayMarkers();
     this.get5day();
     // this.getFiveDay();
     // this.getForecastData();
   };
 
   render() {
-    const { humidity, city, zipcodes } = this.state;
-    const mapStyles = { width: "46%", height: "47%"};
+    const { humidity, city, country } = this.state;
+    const mapStyles = { width: "46%", height: "31%" };
     console.log("uturn", this.state.renderedData);
     return (
       <form className="wholeform">
-        <h1>Welcome to your Weather Forecast!</h1>
-        <label>
-          Zipcode:
-          <input className="zipcode-textbox"
-            type="text"
-            onChange={this.setUserInput}
-            value={this.state.currentInput}
-          />
-        </label>
-        <button type="submit" onClick={e => this.submit(e)}>
-          Submit
-        </button>
         <div>
-          <h3>City</h3>
-          <div>{city}</div>
-          <h3>Temperature</h3>
-          <div>
-            {this.state.temperature && this.getTemp(this.state.temperature)}
-          </div>
-          <h3>Humidity</h3>
-          <div>{humidity}</div>
-          <h3>Time</h3>
-          <div>{this.state.hello}</div>
+          <h1>Welcome to your Weather Forecast!</h1>
+          <span className="button-span"><div className="label-div">
+          <label className="zipcode-label">
+            Zipcode:
+            <input 
+              className="zipcode-textbox"
+              type="text"
+              onChange={this.setUserInput}
+              value={this.state.currentInput}
+            />
+            </label>
+         <button className="button" type="submit" onClick={e => this.submit(e)}>
+            Submit
+          </button>
+            </div></span>
         </div>
-        <Map className="Map"
-          google={this.props.google}
-          zoom={8}
-          style={mapStyles}
-          initialCenter={{ lat: 47.444, lng: -122.176 }}
-        ></Map>
-        <div>
-          <div>
-            {this.state.isForecast &&
-              <Week
-                today={this.state.today}
-                day2={this.state.day2}
-                day3={this.state.day3}
-                day4={this.state.day4}
-                day5={this.state.day5}
-              />
-            }
+
+        <div className="temp-wrapper">
+        <div className="temp-div">
+          {this.state.temperature &&
+            <Today temperature={this.state.temperature}
+            dayInfo={this.state.dayInfo} />
+          }
+        </div>
+        </div>
+
+        <div className="second-section">
+          <div className="second-section-part-one">
+              <h3>City</h3>
+              <div className="stuck-in-between">{city}</div>
+              <h3>Humidity</h3>
+              <div className="stuck-in-between">{humidity}</div>
+              <h3>Country</h3>
+              <div className="stuck-in-between">{country}</div>
           </div>
+
+          <div className="second-section-part-two">
+            <Map
+              className="Map"
+              google={this.props.google}
+              zoom={8}
+              style={mapStyles}
+              initialCenter={{ lat: 47.444, lng: -122.176 }}
+              center={{ lat: this.state.lat, lng: this.state.lng }}
+              map={this.state.map}
+            ></Map>
+          </div>
+        </div>
+        <div>
+          {this.state.isForecast && (
+            <Week
+              today={this.state.today}
+              day2={this.state.day2}
+              day3={this.state.day3}
+              day4={this.state.day4}
+              day5={this.state.day5}
+            />
+          )}
         </div>
       </form>
     );

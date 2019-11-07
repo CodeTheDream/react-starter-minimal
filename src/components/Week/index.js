@@ -2,6 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Day from "../Day";
 import moment from "moment";
+import '../../assets/styles/_Week.scss'
 
 class Week extends React.Component {
   constructor(props) {
@@ -77,15 +78,10 @@ class Week extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="all-week">
         {this.state.day1info && (
-          <div>
-            <Day
-              day={this.state.day}
-              todayHigh={this.state.todayHigh}
-              todayLow={this.state.todayLow}
-              dayInfo={this.state.day1info}
-            />
+          <div className="rendered-five-times">
+  
             <Day
               day={this.state.day2}
               todayHigh={this.state.day2High}
