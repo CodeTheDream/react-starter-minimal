@@ -72,11 +72,14 @@ h1 {
 .stuck-in-between{
     position: relative;
     top: 45px;
-    left: -56px;
+    left: -78px;
+
 }
 
 h3 {
     border-right: 1px solid white;
+    padding-right: 5%;
+    padding-left: 5%;
 }
 
 .temp-div{
@@ -86,6 +89,10 @@ h3 {
     display: grid;
     grid-template-columns: .5fr 1fr ;
 
+}
+
+.temp-wrapper{
+    padding-left: 5%;
 }
 
 .fahren-size{
@@ -107,3 +114,18 @@ h3 {
   .button-span{
     padding-left: 40px;
   }
+
+  .big-icon{
+    size: 12px;
+  }
+
+  path{
+    width: 1em;
+  }
+
+.fa-xs {
+    font-size: .45em;
+    position: absolute;
+    top: 18%;
+    right: -20%;
+}
